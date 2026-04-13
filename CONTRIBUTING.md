@@ -5,15 +5,15 @@ Improvements to the SKILL.md prompt are welcome — open a PR with before/after 
 ## How
 
 1. Fork repo
-2. Edit `skills/caveman/SKILL.md` — this is the only copy you need to touch
+2. Edit `skills/haikuman/SKILL.md` — this is the only copy you need to touch
 3. Open PR with:
-   - **Before:** what caveman say now
-   - **After:** what caveman say with change
-   - One sentence why change better
+   - **Before:** what haikuman says now
+   - **After:** what haikuman says with your change
+   - One sentence on why it's better
 
-> **Note:** `caveman/SKILL.md`, `plugins/caveman/skills/caveman/SKILL.md`, `.cursor/skills/caveman/SKILL.md`, and `caveman.skill` are auto-synced by CI after merge. Do not edit them directly.
+> **Note:** `haikuman/SKILL.md`, `plugins/haikuman/skills/haikuman/SKILL.md`, `.cursor/skills/haikuman/SKILL.md`, and `haikuman.skill` are auto-synced by CI after merge. Do not edit them directly.
 
-Small focused change > big rewrite. Caveman like simple.
+Small focused change > big rewrite.
 
 ## Ideas
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local verification runner for caveman install surfaces."""
+"""Local verification runner for haikuman install surfaces."""
 
 from __future__ import annotations
 
@@ -62,33 +62,33 @@ def read_json(path: Path) -> object:
 
 def verify_synced_files() -> None:
     section("Synced Files")
-    skill_source = ROOT / "skills/caveman/SKILL.md"
-    rule_source = ROOT / "rules/caveman-activate.md"
+    skill_source = ROOT / "skills/haikuman/SKILL.md"
+    rule_source = ROOT / "rules/haikuman-activate.md"
 
     skill_copies = [
-        ROOT / "caveman/SKILL.md",
-        ROOT / "plugins/caveman/skills/caveman/SKILL.md",
-        ROOT / ".cursor/skills/caveman/SKILL.md",
-        ROOT / ".windsurf/skills/caveman/SKILL.md",
+        ROOT / "haikuman/SKILL.md",
+        ROOT / "plugins/haikuman/skills/haikuman/SKILL.md",
+        ROOT / ".cursor/skills/haikuman/SKILL.md",
+        ROOT / ".windsurf/skills/haikuman/SKILL.md",
     ]
     for copy in skill_copies:
         ensure(copy.read_text() == skill_source.read_text(), f"Skill copy mismatch: {copy}")
 
     rule_copies = [
-        ROOT / ".clinerules/caveman.md",
+        ROOT / ".clinerules/haikuman.md",
         ROOT / ".github/copilot-instructions.md",
     ]
     for copy in rule_copies:
         ensure(copy.read_text() == rule_source.read_text(), f"Rule copy mismatch: {copy}")
 
-    with zipfile.ZipFile(ROOT / "caveman.skill") as archive:
-        ensure("caveman/SKILL.md" in archive.namelist(), "caveman.skill missing caveman/SKILL.md")
+    with zipfile.ZipFile(ROOT / "haikuman.skill") as archive:
+        ensure("haikuman/SKILL.md" in archive.namelist(), "haikuman.skill missing haikuman/SKILL.md")
         ensure(
-            archive.read("caveman/SKILL.md").decode("utf-8") == skill_source.read_text(),
-            "caveman.skill payload mismatch",
+            archive.read("haikuman/SKILL.md").decode("utf-8") == skill_source.read_text(),
+            "haikuman.skill payload mismatch",
         )
 
-    print("Synced copies and caveman.skill zip OK")
+    print("Synced copies and haikuman.skill zip OK")
 
 
 def verify_manifests_and_syntax() -> None:
@@ -100,23 +100,23 @@ def verify_manifests_and_syntax() -> None:
         ROOT / ".claude-plugin/marketplace.json",
         ROOT / ".codex/hooks.json",
         ROOT / "gemini-extension.json",
-        ROOT / "plugins/caveman/.codex-plugin/plugin.json",
+        ROOT / "plugins/haikuman/.codex-plugin/plugin.json",
     ]
     for path in manifest_paths:
         read_json(path)
 
-    run(["node", "--check", "hooks/caveman-config.js"])
-    run(["node", "--check", "hooks/caveman-activate.js"])
-    run(["node", "--check", "hooks/caveman-mode-tracker.js"])
+    run(["node", "--check", "hooks/haikuman-config.js"])
+    run(["node", "--check", "hooks/haikuman-activate.js"])
+    run(["node", "--check", "hooks/haikuman-mode-tracker.js"])
     run(["bash", "-n", "hooks/install.sh"])
     run(["bash", "-n", "hooks/uninstall.sh"])
-    run(["bash", "-n", "hooks/caveman-statusline.sh"])
+    run(["bash", "-n", "hooks/haikuman-statusline.sh"])
 
-    # Ensure install/uninstall scripts include caveman-config.js
+    # Ensure install/uninstall scripts include haikuman-config.js
     install_sh = (ROOT / "hooks/install.sh").read_text()
     uninstall_sh = (ROOT / "hooks/uninstall.sh").read_text()
-    ensure("caveman-config.js" in install_sh, "install.sh missing caveman-config.js")
-    ensure("caveman-config.js" in uninstall_sh, "uninstall.sh missing caveman-config.js")
+    ensure("haikuman-config.js" in install_sh, "install.sh missing haikuman-config.js")
+    ensure("haikuman-config.js" in uninstall_sh, "uninstall.sh missing haikuman-config.js")
 
     print("JSON manifests and JS/bash syntax OK")
 
@@ -125,18 +125,18 @@ def verify_powershell_static() -> None:
     section("PowerShell Static Checks")
     install_text = (ROOT / "hooks/install.ps1").read_text()
     uninstall_text = (ROOT / "hooks/uninstall.ps1").read_text()
-    statusline_text = (ROOT / "hooks/caveman-statusline.ps1").read_text()
+    statusline_text = (ROOT / "hooks/haikuman-statusline.ps1").read_text()
 
-    ensure("caveman-config.js" in install_text, "install.ps1 missing caveman-config.js")
-    ensure("caveman-config.js" in uninstall_text, "uninstall.ps1 missing caveman-config.js")
-    ensure("caveman-statusline.ps1" in install_text, "install.ps1 missing statusline.ps1")
-    ensure("caveman-statusline.ps1" in uninstall_text, "uninstall.ps1 missing statusline.ps1")
+    ensure("haikuman-config.js" in install_text, "install.ps1 missing haikuman-config.js")
+    ensure("haikuman-config.js" in uninstall_text, "uninstall.ps1 missing haikuman-config.js")
+    ensure("haikuman-statusline.ps1" in install_text, "install.ps1 missing statusline.ps1")
+    ensure("haikuman-statusline.ps1" in uninstall_text, "uninstall.ps1 missing statusline.ps1")
     ensure("-AsHashtable" not in install_text, "install.ps1 should stay compatible with Windows PowerShell 5.1")
     ensure(
         "powershell -ExecutionPolicy Bypass -File" in install_text,
         "install.ps1 missing PowerShell statusline command",
     )
-    ensure("[CAVEMAN" in statusline_text, "caveman-statusline.ps1 missing badge output")
+    ensure("[HAIKUMAN" in statusline_text, "haikuman-statusline.ps1 missing badge output")
 
     print("Windows install path statically wired")
 
@@ -201,7 +201,7 @@ def verify_hook_install_flow() -> None:
     ensure(shutil.which("node") is not None, "node is required for hook verification")
     ensure(shutil.which("bash") is not None, "bash is required for hook verification")
 
-    with tempfile.TemporaryDirectory(prefix="caveman-verify-") as temp_root:
+    with tempfile.TemporaryDirectory(prefix="haikuman-verify-") as temp_root:
         temp_root_path = Path(temp_root)
         home = temp_root_path / "home"
         claude_dir = home / ".claude"
@@ -222,63 +222,64 @@ def verify_hook_install_flow() -> None:
         ensure("UserPromptSubmit" in hooks, "UserPromptSubmit hook missing after install")
 
         activate = run(
-            ["node", "hooks/caveman-activate.js"],
+            ["node", "hooks/haikuman-activate.js"],
             env={"HOME": str(home)},
         )
-        ensure("CAVEMAN MODE ACTIVE." in activate.stdout, "activation output missing caveman banner")
+        ensure("HAIKUMAN MODE ACTIVE" in activate.stdout, "activation output missing haikuman banner")
         ensure("STATUSLINE SETUP NEEDED" not in activate.stdout, "activation should stay quiet when custom statusline exists")
-        ensure((claude_dir / ".caveman-active").read_text() == "full", "activation flag should default to full")
+        ensure((claude_dir / ".haikuman-active").read_text() == "full", "activation flag should default to full")
 
-        # Test configurable default mode via CAVEMAN_DEFAULT_MODE env var
+        # Test configurable default mode via HAIKUMAN_DEFAULT_MODE env var
         activate_custom = run(
-            ["node", "hooks/caveman-activate.js"],
-            env={"HOME": str(home), "CAVEMAN_DEFAULT_MODE": "ultra"},
+            ["node", "hooks/haikuman-activate.js"],
+            env={"HOME": str(home), "HAIKUMAN_DEFAULT_MODE": "ultra"},
         )
-        ensure("CAVEMAN MODE ACTIVE." in activate_custom.stdout, "activation with custom default missing banner")
-        ensure((claude_dir / ".caveman-active").read_text() == "ultra", "CAVEMAN_DEFAULT_MODE=ultra should set flag to ultra")
+        ensure("HAIKUMAN MODE ACTIVE" in activate_custom.stdout, "activation with custom default missing banner")
+        ensure((claude_dir / ".haikuman-active").read_text() == "ultra", "HAIKUMAN_DEFAULT_MODE=ultra should set flag to ultra")
+
         # Test "off" mode — activation skipped, flag removed
         activate_off = run(
-            ["node", "hooks/caveman-activate.js"],
-            env={"HOME": str(home), "CAVEMAN_DEFAULT_MODE": "off"},
+            ["node", "hooks/haikuman-activate.js"],
+            env={"HOME": str(home), "HAIKUMAN_DEFAULT_MODE": "off"},
         )
-        ensure("CAVEMAN MODE ACTIVE." not in activate_off.stdout, "off mode should not emit caveman banner")
-        ensure(not (claude_dir / ".caveman-active").exists(), "off mode should remove flag file")
+        ensure("HAIKUMAN MODE ACTIVE" not in activate_off.stdout, "off mode should not emit haikuman banner")
+        ensure(not (claude_dir / ".haikuman-active").exists(), "off mode should remove flag file")
 
-        # Test mode tracker with /caveman when default is off — should NOT write flag
+        # Test mode tracker with /haiku when default is off — should NOT write flag
         subprocess.run(
-            ["node", "hooks/caveman-mode-tracker.js"],
+            ["node", "hooks/haikuman-mode-tracker.js"],
             cwd=ROOT,
-            env={**os.environ, "HOME": str(home), "CAVEMAN_DEFAULT_MODE": "off"},
+            env={**os.environ, "HOME": str(home), "HAIKUMAN_DEFAULT_MODE": "off"},
             text=True,
-            input='{"prompt":"/caveman"}',
+            input='{"prompt":"/haikuman"}',
             capture_output=True,
             check=True,
         )
-        ensure(not (claude_dir / ".caveman-active").exists(), "/caveman with off default should not write flag")
+        ensure(not (claude_dir / ".haikuman-active").exists(), "/haikuman with off default should not write flag")
 
         # Reset back to full for subsequent tests
-        (claude_dir / ".caveman-active").write_text("full")
+        (claude_dir / ".haikuman-active").write_text("full")
 
         run(
-            ["node", "hooks/caveman-mode-tracker.js"],
+            ["node", "hooks/haikuman-mode-tracker.js"],
             env={"HOME": str(home)},
             check=True,
         )
 
         ultra_prompt = subprocess.run(
-            ["node", "hooks/caveman-mode-tracker.js"],
+            ["node", "hooks/haikuman-mode-tracker.js"],
             cwd=ROOT,
             env={**os.environ, "HOME": str(home)},
             text=True,
-            input='{"prompt":"/caveman ultra"}',
+            input='{"prompt":"/haikuman ultra"}',
             capture_output=True,
             check=True,
         )
         ensure(ultra_prompt.stdout == "", "mode tracker should stay silent")
-        ensure((claude_dir / ".caveman-active").read_text() == "ultra", "mode tracker did not record ultra")
+        ensure((claude_dir / ".haikuman-active").read_text() == "ultra", "mode tracker did not record ultra")
 
         subprocess.run(
-            ["node", "hooks/caveman-mode-tracker.js"],
+            ["node", "hooks/haikuman-mode-tracker.js"],
             cwd=ROOT,
             env={**os.environ, "HOME": str(home)},
             text=True,
@@ -286,30 +287,30 @@ def verify_hook_install_flow() -> None:
             capture_output=True,
             check=True,
         )
-        ensure(not (claude_dir / ".caveman-active").exists(), "normal mode should remove flag file")
+        ensure(not (claude_dir / ".haikuman-active").exists(), "normal mode should remove flag file")
 
-        (claude_dir / ".caveman-active").write_text("wenyan-ultra")
+        (claude_dir / ".haikuman-active").write_text("ultra")
         statusline = run(
-            ["bash", "hooks/caveman-statusline.sh"],
+            ["bash", "hooks/haikuman-statusline.sh"],
             env={"HOME": str(home)},
         )
-        ensure("[CAVEMAN:WENYAN-ULTRA]" in statusline.stdout, "statusline badge output mismatch")
+        ensure("[HAIKUMAN:ULTRA]" in statusline.stdout, "statusline badge output mismatch")
 
         reinstall = run(["bash", "hooks/install.sh"], env={"HOME": str(home)})
         ensure("Nothing to do" in reinstall.stdout, "install.sh should be idempotent")
 
         run(["bash", "hooks/uninstall.sh"], env={"HOME": str(home)})
         settings_after = read_json(claude_dir / "settings.json")
-        ensure(settings_after == existing_settings, "uninstall.sh did not restore non-caveman settings")
-        ensure(not (claude_dir / ".caveman-active").exists(), "uninstall.sh should remove flag file")
+        ensure(settings_after == existing_settings, "uninstall.sh did not restore non-haikuman settings")
+        ensure(not (claude_dir / ".haikuman-active").exists(), "uninstall.sh should remove flag file")
 
-    with tempfile.TemporaryDirectory(prefix="caveman-verify-fresh-") as temp_root:
+    with tempfile.TemporaryDirectory(prefix="haikuman-verify-fresh-") as temp_root:
         home = Path(temp_root) / "home"
         run(["bash", "hooks/install.sh"], env={"HOME": str(home)})
         claude_dir = home / ".claude"
         settings = read_json(claude_dir / "settings.json")
         ensure("statusLine" in settings, "fresh install should configure statusline")
-        activate = run(["node", "hooks/caveman-activate.js"], env={"HOME": str(home)})
+        activate = run(["node", "hooks/haikuman-activate.js"], env={"HOME": str(home)})
         ensure("STATUSLINE SETUP NEEDED" not in activate.stdout, "fresh install should not nudge for statusline")
         run(["bash", "hooks/uninstall.sh"], env={"HOME": str(home)})
         ensure(read_json(claude_dir / "settings.json") == {}, "fresh uninstall should leave empty settings")

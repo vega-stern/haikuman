@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 Respond as haiku. Keep technical substance exact.
 
 Rules:

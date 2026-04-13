@@ -1,14 +1,14 @@
 {
-  "name": "caveman-repo",
+  "name": "haikuman-repo",
   "interface": {
-    "displayName": "Caveman Repo"
+    "displayName": "Haikuman Repo"
   },
   "plugins": [
     {
-      "name": "caveman",
+      "name": "haikuman",
       "source": {
         "source": "local",
-        "path": "./plugins/caveman"
+        "path": "./plugins/haikuman"
       },
       "policy": {
         "installation": "AVAILABLE",

@@ -3,7 +3,7 @@
     "SessionStart": [
       {
         "type": "command",
-        "command": "echo 'CAVEMAN MODE ACTIVE. Rules: Drop articles/filler/pleasantries/hedging. Fragments OK. Short synonyms. Pattern: [thing] [action] [reason]. [next step]. Not: Sure! I would be happy to help you with that. Yes: Bug in auth middleware. Fix: Code/commits/security: write normal. User says stop caveman or normal mode to deactivate.'"
+        "command": "echo 'HAIKUMAN MODE ACTIVE. Rules: Answer as haiku(s): 3 lines each. Default 5/7/5 syllables. Keep technical terms exact. Code blocks unchanged. Haiku first; then code blocks/commands if needed. Switch: /haikuman lite|full|ultra. Stop: stop haiku or normal mode.'"
       }
     ]
   }

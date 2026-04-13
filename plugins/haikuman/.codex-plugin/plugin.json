@@ -1,0 +1,40 @@
+{
+  "name": "haikuman",
+  "version": "0.1.0",
+  "description": "Haiku communication mode. Keeps technical accuracy, but answers in haiku.",
+  "author": {
+    "name": "Vega Stern",
+    "url": "https://github.com/vega-stern"
+  },
+  "homepage": "https://github.com/vega-stern/haikuman",
+  "repository": "https://github.com/vega-stern/haikuman",
+  "license": "MIT",
+  "keywords": [
+    "productivity",
+    "communication",
+    "writing",
+    "haiku",
+    "poetry"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Haikuman",
+    "shortDescription": "Talk in haiku. Keep technical accuracy.",
+    "longDescription": "Haiku communication mode for Codex. Replies are haiku(s) first, with code blocks preserved when needed.",
+    "developerName": "Vega Stern",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://github.com/vega-stern/haikuman",
+    "privacyPolicyURL": "https://github.com/vega-stern/haikuman/blob/main/README.md",
+    "termsOfServiceURL": "https://github.com/vega-stern/haikuman/blob/main/LICENSE",
+    "defaultPrompt": [
+      "Use haikuman mode. Reply in haiku. Keep technical accuracy."
+    ],
+    "composerIcon": "./assets/caveman-small.svg",
+    "logo": "./assets/caveman.svg",
+    "screenshots": [],
+    "brandColor": "#6B7280"
+  }
+}

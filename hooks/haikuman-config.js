@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// caveman — shared configuration resolver
+// haikuman — shared configuration resolver
 //
 // Resolution order for default mode:
-//   1. CAVEMAN_DEFAULT_MODE environment variable
+//   1. HAIKUMAN_DEFAULT_MODE environment variable
 //   2. Config file defaultMode field:
-//      - $XDG_CONFIG_HOME/caveman/config.json (any platform, if set)
-//      - ~/.config/caveman/config.json (macOS / Linux fallback)
-//      - %APPDATA%\caveman\config.json (Windows fallback)
+//      - $XDG_CONFIG_HOME/haikuman/config.json (any platform, if set)
+//      - ~/.config/haikuman/config.json (macOS / Linux fallback)
+//      - %APPDATA%\haikuman\config.json (Windows fallback)
 //   3. 'full'
 
 const fs = require('fs');
@@ -15,21 +15,21 @@ const os = require('os');
 
 const VALID_MODES = [
   'off', 'lite', 'full', 'ultra',
-  'wenyan-lite', 'wenyan', 'wenyan-full', 'wenyan-ultra',
+  // independent skills tracked for the statusline badge
   'commit', 'review', 'compress'
 ];
 
 function getConfigDir() {
   if (process.env.XDG_CONFIG_HOME) {
-    return path.join(process.env.XDG_CONFIG_HOME, 'caveman');
+    return path.join(process.env.XDG_CONFIG_HOME, 'haikuman');
   }
   if (process.platform === 'win32') {
     return path.join(
       process.env.APPDATA || path.join(os.homedir(), 'AppData', 'Roaming'),
-      'caveman'
+      'haikuman'
     );
   }
-  return path.join(os.homedir(), '.config', 'caveman');
+  return path.join(os.homedir(), '.config', 'haikuman');
 }
 
 function getConfigPath() {
@@ -38,7 +38,7 @@ function getConfigPath() {
 
 function getDefaultMode() {
   // 1. Environment variable (highest priority)
-  const envMode = process.env.CAVEMAN_DEFAULT_MODE;
+  const envMode = process.env.HAIKUMAN_DEFAULT_MODE;
   if (envMode && VALID_MODES.includes(envMode.toLowerCase())) {
     return envMode.toLowerCase();
   }

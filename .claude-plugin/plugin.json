@@ -1,9 +1,9 @@
 {
-  "name": "caveman",
-  "description": "Ultra-compressed communication mode. Cuts ~75% of tokens while keeping full technical accuracy by speaking like a caveman.",
+  "name": "haikuman",
+  "description": "Haiku communication mode. Keeps technical accuracy, but answers in haiku.",
   "author": {
-    "name": "Julius Brussee",
-    "url": "https://github.com/JuliusBrussee"
+    "name": "Vega Stern",
+    "url": "https://github.com/vega-stern"
   },
   "hooks": {
     "SessionStart": [
@@ -11,9 +11,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/caveman-activate.js",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/haikuman-activate.js",
             "timeout": 5,
-            "statusMessage": "Loading caveman mode..."
+            "statusMessage": "Loading haiku mode..."
           }
         ]
       }
@@ -23,9 +23,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/caveman-mode-tracker.js",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/haikuman-mode-tracker.js",
             "timeout": 5,
-            "statusMessage": "Tracking caveman mode..."
+            "statusMessage": "Tracking haiku mode..."
           }
         ]
       }

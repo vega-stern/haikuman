@@ -1,4 +1,4 @@
-$Flag = Join-Path $HOME ".claude/.caveman-active"
+$Flag = Join-Path $HOME ".claude/.haikuman-active"
 if (-not (Test-Path $Flag)) {
     exit 0
 }
@@ -12,8 +12,8 @@ try {
 
 $Esc = [char]27
 if ([string]::IsNullOrEmpty($Mode) -or $Mode -eq "full") {
-    [Console]::Write("${Esc}[38;5;172m[CAVEMAN]${Esc}[0m")
+    [Console]::Write("${Esc}[38;5;172m[HAIKUMAN]${Esc}[0m")
 } else {
     $Suffix = $Mode.ToUpperInvariant()
-    [Console]::Write("${Esc}[38;5;172m[CAVEMAN:$Suffix]${Esc}[0m")
+    [Console]::Write("${Esc}[38;5;172m[HAIKUMAN:$Suffix]${Esc}[0m")
 }
